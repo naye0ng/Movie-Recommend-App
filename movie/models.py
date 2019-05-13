@@ -1,9 +1,13 @@
 from django.db import models
+from django.conf import settings
 
 
 # Create your models here.
 class Genre(models.Model):
     name = models.CharField(max_length=100)
+    
+    def __str__(self):
+        return f"장르: {self.name}"
 
 
 class Movie(models.Model):
@@ -13,8 +17,17 @@ class Movie(models.Model):
     trailer_url = models.CharField(max_length=200)
     audience = models.IntegerField()
     genre = models.ForeignKey(Genre, on_delete=models.CASCADE)
+    user_like = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='like_movie')
+
+    def __str__(self):
+        return f"영화 제목: {self.title}"
 
 
 class Review(models.Model):
     score = models.IntegerField()
     comment = models.CharField(max_length=300)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    movie = models.ForeignKey(Movie, on_delete=models.CASCADE)
+    
+    def __str__(self):
+        return f"댓글: {self.comment}"
