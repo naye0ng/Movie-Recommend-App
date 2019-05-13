@@ -5,6 +5,5 @@ app_name = 'admin'
 urlpatterns = [
     path('users/',views.users,name='users'),
     path('movies/',views.movies,name='movies'),
-    # TODO : vue로 CRUD 처리 : Rest API 추가
-    # path('api/user/<int_userId>/', views.user, name='user'),
+    # TODO : (Vue.js로 CRUD)movie app, user app의 rest api로 넘김 or admin app 자체적으로 처리
 ]
