@@ -171,3 +171,7 @@ Temporary Items
 .apdisk
 
 # End of https://www.gitignore.io/api/macos
+
+
+# migrations 충돌 회피
+migrations/
