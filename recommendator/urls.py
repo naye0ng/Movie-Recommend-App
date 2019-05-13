@@ -16,10 +16,12 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from movie import urls
+from admin import urls
 from rest_framework_swagger.views import get_swagger_view
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/v1/',include('movie.urls')),
+    path('admin/',include('admin.urls')),
     path('docs/', get_swagger_view(title="Movie Recommend App : API Document")),
 ]
