@@ -8,21 +8,26 @@
         </button>
       </div>
       <div class="modal-body">
-        <form>
+        <form action="http://final-project-naye0ng.c9users.io/api/v1/rest-auth/login/" method="POST">
+          {% csrf_token %}
           <div class="form-group">
             <label for="id" class="col-form-label">ID:</label>
             <input type="text" class="form-control" id="id">
           </div>
           <div class="form-group">
+            <label for="id" class="col-form-label">EMAIL:</label>
+            <input type="email" class="form-control" id="email">
+          </div>
+          <div class="form-group">
             <label for="passwd" class="col-form-label">PASSWORD:</label>
             <input type="password" class="form-control" id="passwd">
           </div>
-        </form>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-pink">Send message</button>
+        <button type="submit" class="btn btn-pink">Send message</button>
       </div>
+    </form>
     </div>
   </div>
 </div>
