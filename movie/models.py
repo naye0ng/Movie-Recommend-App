@@ -31,3 +31,4 @@ class Review(models.Model):
     
     def __str__(self):
         return f"댓글: {self.comment}"
+
