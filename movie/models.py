@@ -4,6 +4,7 @@ from django.conf import settings
 
 # Create your models here.
 class Genre(models.Model):
+    code = models.IntegerField()
     name = models.CharField(max_length=100)
     
     def __str__(self):
