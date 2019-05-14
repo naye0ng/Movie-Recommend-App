@@ -15,5 +15,4 @@ urlpatterns = [
     path('users/<int:user_id>/follow/', views.user_follow), # GET
     # path('accounts/login/', views.login), # POST
     # path('accounts/logout/', views.logout), # POST
-    path('rest-auth/',include('rest_auth.urls')),
 ]
