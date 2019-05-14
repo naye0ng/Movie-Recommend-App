@@ -1,9 +1,10 @@
+from rest_framework.decorators import api_view
 from django.shortcuts import render, get_object_or_404
 from movie.models import Genre, Movie, Review
 from movie.serializers import MovieSerializer, ReviewSerailizer
 from django.contrib.auth.decorators import login_required
 from rest_framework.response import Response
-from rest_framework.decorators import api_view
+
 
 
 # Create your views here.
@@ -12,7 +13,7 @@ from rest_framework.decorators import api_view
 @api_view(['GET', 'POST'])
 def movies(request):
     movie_list = Movie.objects.all()
-    serializer = Response(movie_list, many=True)
+    serializer = MovieSerializer(movie_list, many=True)
     
     return Response(serializer.data)
 
@@ -36,7 +37,7 @@ def movie_detail(request, movie_id):
     else:
         serializer = MovieSerializer(movie, data=request.data, partial=True)
         
-        if serial.is_valid():
+        if serializer.is_valid():
             serializer.save()
             
             return Response({'message': '수정 완료'})
@@ -57,12 +58,30 @@ def movie_like(request, movie_id):
         
         return Response({'message': 'like'})
     
-    
-def comments(request):
-    pass
 
-def comment_detail(request):
-    pass
+@api_view(['GET', 'POST'])
+def reviews(request):
+    review_list = Review.objects.all()
+    
+    serializer = ReviewSerailizer(review_list, many=True)
+    
+    return Response(data=serializer.data)
+    
+@login_required
+@api_view(['PUT', 'DELETE'])
+def review_detail(request, review_id):
+    review = get_object_or_404(Review, pk=review_id)
+    
+    if request.method == 'PUT':
+        serializer = ReviewSerailizer(review, data=request.data, partial=True)
+        
+        if serializer.is_valid():
+            serializer.save()
+            
+            return Response({'message', '수정 완료'})
+        return Response(serializer.error)
+    else:
+        review.delete()
 
 
 # naye0ng
@@ -71,7 +90,7 @@ def users(request) :
 
 def user_detail(request) :
     pass
-`
+
 def user_follow(request) :
     pass
 
