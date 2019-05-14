@@ -14,9 +14,9 @@ class Movie(models.Model):
     title = models.CharField(max_length=200)
     description = models.TextField()
     poster_url = models.CharField(max_length=200)
-    trailer_url = models.CharField(max_length=200)
+    trailer_url = models.CharField(max_length=200, blank=True)
     audience = models.IntegerField()
-    genre = models.ForeignKey(Genre, on_delete=models.CASCADE)
+    genre = models.ManyToManyField(Genre, related_name='movie')
     user_like = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='like_movie')
 
     def __str__(self):
