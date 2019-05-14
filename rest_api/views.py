@@ -119,6 +119,21 @@ def get_genre(request):
     for genre in genre_list:
         Genre.objects.create(code=genre.get('id'), name=genre.get('name'))
     
+def get_movie(request):
+    movie_url = f"https://api.themoviedb.org/3/movie/popular?api_key={TMBb_KEY}&language=ko-KR&page=1"
+
+    conn = http.client.HTTPSConnection("api.themoviedb.org")
+    
+    payload = "{}"
+    
+    conn.request("GET", movie_url, payload)
+    
+    res = conn.getresponse()
+    data = res.read().decode("utf-8")
+    dic = json.loads(data)
+    
+    print(dic)
+
 
 # naye0ng
 def users(request) :

@@ -13,6 +13,7 @@ class Genre(models.Model):
 
 class Movie(models.Model):
     title = models.CharField(max_length=200)
+    original_title = models.CharField(max_length=200)
     description = models.TextField()
     poster_url = models.CharField(max_length=200)
     trailer_url = models.CharField(max_length=200, blank=True)
