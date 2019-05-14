@@ -4,8 +4,10 @@ from movie.models import Genre, Movie, Review
 from movie.serializers import MovieSerializer, ReviewSerailizer
 from django.contrib.auth.decorators import login_required
 from rest_framework.response import Response
+import http.client
+import json
 
-
+TMBb_KEY = "c32b7a92dabcaf36aea7c9e6d9ad689e"
 
 # Create your views here.
 
@@ -19,13 +21,14 @@ def movies(request):
         return Response(serializer.data)
     # TODO: 관리자 확인
     else:
-        serializer = MovieSerializer(request.data)
+        serializer = MovieSerializer(data=request.data)
         
         if serializer.is_valid():
             serializer.save(genre)
             
             return Response({'message': '작성 완료'})
         return Response(serializer.error)
+
 
 @api_view(['GET', 'PUT', 'DELETE'])
 def movie_detail(request, movie_id):
@@ -98,6 +101,24 @@ def review_detail(request, review_id):
     else:
         review.delete()
 
+
+def get_genre(request):
+    genre_url = f"https://api.themoviedb.org/3/genre/movie/list?api_key={TMBb_KEY}&language=ko-KR"
+    
+    conn = http.client.HTTPSConnection("api.themoviedb.org")
+    
+    payload = "{}"
+    
+    conn.request("GET", genre_url, payload)
+    
+    res = conn.getresponse()
+    data = res.read().decode("utf-8")
+    dic = json.loads(data)
+    genre_list = dic.get('genres')
+    
+    for genre in genre_list:
+        Genre.objects.create(code=genre.get('id'), name=genre.get('name'))
+    
 
 # naye0ng
 def users(request) :
