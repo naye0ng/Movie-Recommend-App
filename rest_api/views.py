@@ -12,11 +12,20 @@ from rest_framework.response import Response
 # don2101
 @api_view(['GET', 'POST'])
 def movies(request):
-    movie_list = Movie.objects.all()
-    serializer = MovieSerializer(movie_list, many=True)
-    
-    return Response(serializer.data)
-
+    if request.method == 'GET':
+        movie_list = Movie.objects.all()
+        serializer = MovieSerializer(movie_list, many=True)
+        
+        return Response(serializer.data)
+    # TODO: 관리자 확인
+    else:
+        serializer = MovieSerializer(request.data)
+        
+        if serializer.is_valid():
+            serializer.save(genre)
+            
+            return Response({'message': '작성 완료'})
+        return Response(serializer.error)
 
 @api_view(['GET', 'PUT', 'DELETE'])
 def movie_detail(request, movie_id):
@@ -26,15 +35,7 @@ def movie_detail(request, movie_id):
         serializer = MovieSerializer(movie)
         
         return Response(serializer.data)
-    elif request.method == 'POST':
-        serializer = MovieSerializer(data=request.data)
-        
-        if serializer.is_valid():
-            serializer.save()
-            
-            return Response({'message': '작성 완료'})
-        return Response(serializer.error)
-    else:
+    elif request.method == 'PUT':
         serializer = MovieSerializer(movie, data=request.data, partial=True)
         
         if serializer.is_valid():
@@ -42,6 +43,8 @@ def movie_detail(request, movie_id):
             
             return Response({'message': '수정 완료'})
         return Response(serializer.error)
+    else:
+        movie.delete()
 
 
 @login_required
@@ -66,7 +69,8 @@ def reviews(request):
     serializer = ReviewSerailizer(review_list, many=True)
     
     return Response(data=serializer.data)
-    
+
+
 @login_required
 @api_view(['PUT', 'DELETE'])
 def review_detail(request, review_id):
