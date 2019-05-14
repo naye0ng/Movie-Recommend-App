@@ -12,12 +12,14 @@ class Genre(models.Model):
 
 
 class Movie(models.Model):
+    movie_code = models.IntegerField(unique=True)
     title = models.CharField(max_length=200)
     original_title = models.CharField(max_length=200)
     description = models.TextField()
     poster_url = models.CharField(max_length=200)
     trailer_url = models.CharField(max_length=200, blank=True)
-    genre = models.ManyToManyField(Genre, related_name='movie')
+    release_date = models.CharField(max_length=50)
+    genres = models.ManyToManyField(Genre, related_name='movie')
     user_like = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='like_movie')
 
     def __str__(self):
