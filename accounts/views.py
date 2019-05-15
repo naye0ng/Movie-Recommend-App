@@ -13,7 +13,7 @@ def login(request) :
             # 로그인하여 원래 주소로 넘겨주기
             auth_login(request, form.get_user())
             # 이부분 추가
-            return redirect(request.GET.get('next') or '')
+            return redirect(request.GET.get('next') or 'home')
 
     form = AuthenticationForm()
     content = {
