@@ -1,12 +1,14 @@
 from rest_framework.decorators import api_view
 from django.shortcuts import render, get_object_or_404
 from movie.models import Genre, Movie, Review
-from movie.serializers import MovieSerializer, ReviewSerailizer
+from movie.serializers import MovieSerializer, ReviewSerailizer, GenreSerializer
 from django.contrib.auth.decorators import login_required
 from rest_framework.response import Response
 import http.client
 import json
 
+from accounts.serializers import CustomUserSerializer
+from accounts.models import User
 
 TMBb_KEY = "c32b7a92dabcaf36aea7c9e6d9ad689e"
 
@@ -15,8 +17,10 @@ TMBb_KEY = "c32b7a92dabcaf36aea7c9e6d9ad689e"
 # don2101
 
 def main(request):
-    
     return render(request, 'rest_api/main.html')
+    
+def administor(request):
+    return render(request, 'rest_api/admin.html')
 
 @api_view(['GET', 'POST'])
 def movies(request):
@@ -118,24 +122,46 @@ def movie_recommendation(user):
 
 
 # naye0ng
+@api_view(['GET'])
+def genres(request) :
+    genres = Genre.objects.all()
+    serializer = GenreSerializer(genres, many=True)
+    return Response(serializer.data)
+    
+@login_required
+@api_view(['GET'])
 def users(request) :
     users = User.objects.all()
     serializer = CustomUserSerializer(users, many=True)
     return Response(serializer.data)
 
-def user_detail(request) :
-    pass
+@login_required
+@api_view(['GET','PUT', 'DELETE'])
+def user(request, user_id) :
+    user = get_object_or_404(User,pk=user_id)
+    print("요청 들어옴")
+    # 해당하는 user 1명의 정보 반환, 개인페이지에서 사용가능
+    if request.method == 'GET' :
+        serializer = CustomUserSerializer(user)
+        return Response(serializer.data)
+        
+    elif request.method == 'PUT' :
+        # 유저 정보 변경
+        user.username = request.data['username']
+        user.isAdmin = request.data['isAdmin']
+        user.save()
+        serializer = CustomUserSerializer(user,many=False)
+        return Response(serializer.data)
+        
+    elif request.method == 'DELETE' :
+        # 유저 정보 삭제
+        serializer = CustomUserSerializer(user,many=False)
+        user.delete()
+        return Response(serializer.data)
 
 def user_follow(request) :
     pass
 
-@api_view(['POST'])
-def custom_login(request):
-    pass
-    
-
-def logout(request):
-    pass
 
 
 

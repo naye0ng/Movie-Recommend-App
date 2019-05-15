@@ -1,0 +1,113 @@
+{% extends 'base.html' %}
+
+
+{% block body %}
+<div id="user-list" class="container">
+  <div class="card bg-secondary">
+    <div class="card-body">
+      <h5 class="card-title">사용자 정보 변경</h5>
+      <!--<form>-->
+        {% csrf_token %}
+        <div class="form-group">
+          <label for="username">Username</label>
+          <input v-model="target.username" type="text" class="form-control" id="username" placeholder="아래 테이블에서 변경을 원하는 유저를 선택하세요.">
+        </div>
+        <div class="form-group form-check">
+          <input type="checkbox" class="form-check-input" id="admin" v-model="target.isAdmin">
+          <label for="admin">여기에 체크하시면 관리자 권한을 부여할 수 있습니다.</label>
+        </div>
+        <br>
+        <button class="btn btn-pink rounded-pill mr-1" @click="changeUser">수정</button>
+        <button class="btn btn-outline-light rounded-pill" @click="deleteUser">삭제</button>
+      <!--</form>-->
+    </div>
+  </div>
+
+  <br>
+  <!--수정, 삭제 완료 메시지-->
+  <div v-for="msg of message" class="alert alert-success alert-dismissible fade show" role="alert">
+    [[ msg ]]
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <br>
+    
+  <table class="table table-hover table-dark text-center">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">username</th>
+        <th scope="col">admin</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr v-for="user in users" @click="targetUser(user)" :id="user.id">
+        <th scope="row">[[ user.id ]]</th>
+        <td>[[ user.username ]]</td>
+        <td v-if="user.isAdmin">Yes</td>
+        <td v-else>No</td>
+      </tr>
+    </tbody>
+  </table>
+
+</div>
+
+<script>
+  var csrf_token = $('[name=csrfmiddlewaretoken]').val()
+  
+  const userListApp = new Vue({
+    delimiters: ['[[', ']]'],
+    el: "#user-list",
+    data: {
+      users :[],
+      target : {},
+      headers :{
+        'accept' : 'application/json',
+        'Content-Type': 'application/json', 
+        'X-CSRFToken':csrf_token,
+      },
+      message : {},
+    },
+    methods: {
+      getUser : function(){
+        axios({ method: 'GET', url: 'https://movie-recommend-app-naye0ng.c9users.io/api/v1/users/'})
+        .then(response => {
+          this.users = response.data
+        })
+      },
+      targetUser :function(user) {
+        this.target = user
+        //document.getElementById(user.id).classList.toggle('selected-tr');
+      },
+      changeUser : function() {
+        axios({ method: 'PUT', url: `https://movie-recommend-app-naye0ng.c9users.io/api/v1/users/${this.target.id}/`, headers: this.headers, data: this.target})
+          .then(response => {
+            //요청이 완료되면 내용 지우고 메시지 띄우기
+            this.message[this.target.id] = `${this.target.username}의 정보가 성공적으로 수정되었습니다.`
+            console.log(this.message)
+            this.target = {}
+            console.log("완료")
+        })
+      },
+      deleteUser : function(){
+        axios({ method: 'DELETE', url: `https://movie-recommend-app-naye0ng.c9users.io/api/v1/users/${this.target.id}/`, headers: this.headers})
+          .then(response => {
+            //요청이 완료되면 내용 지우기
+            this.message[this.target.id] = `${this.target.username}의 정보가 성공적으로 삭제되었습니다.`
+            this.target = {}
+            this.getUser()
+        })
+      }
+        
+    },
+    created: function() {
+      this.getUser()
+    },
+  })
+</script>
+
+
+
+
+{% endblock %}

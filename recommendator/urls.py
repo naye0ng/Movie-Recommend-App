@@ -25,9 +25,9 @@ from rest_framework_swagger.views import get_swagger_view
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', rest_api.views.main, name="home"),
+    path('administor/', rest_api.views.administor, name="administor"),
     path('movie/', include('movie.urls')),
     path('accounts/',include('accounts.urls')),
-    path('administor/', include('administor.urls')),
     path('api/v1/', include('rest_api.urls')),
     path('docs/', get_swagger_view(title="Movie Recommend App : API Document")),
 ]
