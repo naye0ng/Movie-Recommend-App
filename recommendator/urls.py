@@ -31,3 +31,4 @@ urlpatterns = [
     path('api/v1/', include('rest_api.urls')),
     path('docs/', get_swagger_view(title="Movie Recommend App : API Document")),
 ]
+
