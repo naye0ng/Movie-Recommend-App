@@ -276,6 +276,17 @@
           axios({ method: 'POST', url: addMovieUrl, headers: this.headers, data:this.movie })
           .then(response => {
             console.log(response)
+            this.movieList.unshift(this.movie)
+            alert(`${this.movie.title} 영화가 성공적으로 등록되었습니다.`)
+            this.movie = {
+              original_title: '',
+              title: '',
+              description: '',
+              genres: [],
+              poster_url: '',
+              release_date: '',
+              trailer_url: '',
+            }
           })
         }
         
