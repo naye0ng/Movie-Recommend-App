@@ -1,7 +1,12 @@
 <nav class="navbar navbar-expand-lg">
   <div class="row navbar-menu">
-    <a href="" data-toggle="modal" data-target="#exampleModal"><div class='navbar-btn'>LOGIN</div></a>
-    <a href=""><div class='navbar-btn'>SIGN IN</div></a>
+    {% if user.username %}
+    <a href="{% url 'accounts:logout' %}"><div class='navbar-btn'>LOGOUT</div></a>
+    {% else %}
+    <a href="{% url 'accounts:login' %}"><div class='navbar-btn'>LOGIN</div></a>
+    <a href="{% url 'accounts:signup' %}"><div class='navbar-btn'>SIGN UP</div></a>
+    {% endif %}
+    
     <a href=""><div class='navbar-btn'>LIST</div></a>
  </div>
 </nav>

@@ -15,16 +15,18 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from movie import urls
-from administor import urls
+# from movie import urls
+# from administor import urls
+# from accounts import urls
 from rest_api import urls
 import rest_api
 from rest_framework_swagger.views import get_swagger_view
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', rest_api.views.main),
+    path('', rest_api.views.main, name="home"),
     path('movie/', include('movie.urls')),
+    path('accounts/',include('accounts.urls')),
     path('administor/', include('administor.urls')),
     path('api/v1/', include('rest_api.urls')),
     path('docs/', get_swagger_view(title="Movie Recommend App : API Document")),
