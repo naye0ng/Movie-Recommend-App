@@ -13,7 +13,4 @@ urlpatterns = [
     path('users/', views.users), # GET
     path('users/<int:user_id>/', views.user_detail), # GET, PUT, DELETE
     path('users/<int:user_id>/follow/', views.user_follow), # GET
-    path('login/', views.custom_login), # POST
-    path('logout/', views.logout), # POST
-    path('signup/',views.signup, name='signup'), # POST
 ]
