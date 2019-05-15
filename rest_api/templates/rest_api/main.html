@@ -38,13 +38,46 @@
       <button @click="postReview(selectedMovie.id)" class="btn btn-pink"> 작성 </button>
       
       <ul v-for="review in reviewList">
+        <!-- 추가, 삭제 하고 바로 적용되게(watch?) -->
         <li>[[ review.user ]]: [[ review.score ]]: [[ review.comment ]]</li>
-        <button @click="updateReview" class="btn btn-success">수정</button>
+        <button @click="updateReview()" type="button" class="btn btn-success" data-toggle="modal" data-target="#exampleModal" data-whatever="">수정</button>
+
         <button @click="deleteReview(selectedMovie.id, review.id)" class="btn btn-danger">삭제</button>
       </ul>
 
     </div>
   </div>
+  
+  <!-- review 수정 Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Review 수정</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        
+        <div class="modal-body">
+          <form>
+            <div class="form-group">
+              <input type="number" class="form-control" value="5"></input>
+            </div>
+            <div class="form-group">
+              <input type="text" class="form-control"></input>
+            </div>
+          </form>
+        </div>
+        
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-dismiss="modal">닫기</button>
+          <button type="button" class="btn btn-success">수정</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- review 수정 Modal -->
   
 </div>
 
@@ -109,8 +142,8 @@
           })
         },
         
-        updateReview: async function(movieId, reviewId) {
-          
+        updateReview: async function() {
+          this.score = 
         },
         
         deleteReview: async function(movieId, reviewId) {
