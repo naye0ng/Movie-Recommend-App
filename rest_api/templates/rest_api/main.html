@@ -35,8 +35,14 @@
       <input type="number" min="0" max="5" v-model.number="score">
       <input type="text" v-model="comment">
       
-      <button @click="postReview(selectedMovie.id)" class="btn btn-primary"> 작성 </button>
+      <button @click="postReview(selectedMovie.id)" class="btn btn-pink"> 작성 </button>
       
+      <ul v-for="review in reviewList">
+        <li>[[ review.user ]]: [[ review.score ]]: [[ review.comment ]]</li>
+        <button @click="updateReview" class="btn btn-success">수정</button>
+        <button @click="deleteReview(selectedMovie.id, review.id)" class="btn btn-danger">삭제</button>
+      </ul>
+
     </div>
   </div>
   
@@ -56,19 +62,28 @@
         score: 0,
         comment: "",
         
-        reviews: [],
+        reviewList: [],
         
     },
     
     methods: {
+        getReview: async function(movieId) {
+          const reviewUrl = `https://movie-recommendator-don2101.c9users.io/api/v1/movies/${movieId}/reviews/`
+          const response = await axios.get(reviewUrl)
+          
+          this.reviewList = response.data
+        },
+      
         getMovie: async function(movieId) {
           const movieUrl = `https://movie-recommendator-don2101.c9users.io/api/v1/movies/${movieId}/`
           const response = await axios.get(movieUrl)
           
+          this.getReview(movieId)
+          
           this.selectedMovie = response.data
           this.listOn = false
         },
-        
+
         
         postReview: function(movieId) {
           const reviewUrl = `https://movie-recommendator-don2101.c9users.io/api/v1/movies/${movieId}/reviews/`
@@ -92,8 +107,31 @@
           .then(response => {
             console.log(response)
           })
+        },
+        
+        updateReview: async function(movieId, reviewId) {
           
+        },
+        
+        deleteReview: async function(movieId, reviewId) {
+          const reviewUrl = `https://movie-recommendator-don2101.c9users.io/api/v1/movies/${movieId}/reviews/${reviewId}/`
+          const token = jQuery("[name=csrfmiddlewaretoken]").val();
+          
+          // 이게 왜 되는거지?
+          axios.defaults.xsrfCookieName = 'csrftoken'
+          axios.defaults.xsrfHeaderName = "X-CSRFTOKEN"
+          
+          const payload = {
+            "content-type": "application/json",
+            "x-csrf-token": token,
+          }
+          
+          axios({ method: 'DELETE', url: reviewUrl, headers: payload })
+          .then(response => {
+            console.log(response)
+          })
         }
+        
     },
     
     created: async function() {

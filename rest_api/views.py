@@ -94,7 +94,7 @@ def reviews(request, movie_id):
 
 @login_required
 @api_view(['PUT', 'DELETE'])
-def review_detail(request, review_id):
+def review_detail(request, movie_id, review_id):
     review = get_object_or_404(Review, pk=review_id)
     
     if request.method == 'PUT':
@@ -107,6 +107,8 @@ def review_detail(request, review_id):
         return Response(serializer.error)
     else:
         review.delete()
+        
+        return Response({'message', '삭제 완료'})
 
 
 def movie_recommendation(user):
