@@ -18,12 +18,14 @@ from django.urls import path, include
 from movie import urls
 from administor import urls
 from rest_api import urls
+from accounts import urls
 from rest_framework_swagger.views import get_swagger_view
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('movie/', include('movie.urls')),
+    path('', include('movie.urls'), name='movie'),
     path('administor/', include('administor.urls')),
+    path('accounts/', include('accounts.urls')),
     path('api/v1/', include('rest_api.urls')),
     path('docs/', get_swagger_view(title="Movie Recommend App : API Document")),
 ]

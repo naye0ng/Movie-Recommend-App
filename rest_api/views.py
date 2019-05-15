@@ -7,6 +7,7 @@ from rest_framework.response import Response
 import http.client
 import json
 
+
 TMBb_KEY = "c32b7a92dabcaf36aea7c9e6d9ad689e"
 
 # Create your views here.
@@ -137,7 +138,9 @@ def get_movie(request):
 
 # naye0ng
 def users(request) :
-    pass
+    users = User.objects.all()
+    serializer = CustomUserSerializer(users, many=True)
+    return Response(serializer.data)
 
 def user_detail(request) :
     pass
@@ -145,8 +148,14 @@ def user_detail(request) :
 def user_follow(request) :
     pass
 
-def login(request):
+@api_view(['POST'])
+def custom_login(request):
     pass
+    
 
 def logout(request):
+    pass
+
+@api_view(['POST'])
+def signup(request):
     pass

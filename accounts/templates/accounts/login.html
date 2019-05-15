@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% load bootstrap4 %}
+
+{% block body %}
+<div class="container">
+    <div>
+        <form method='POST'>
+            {% csrf_token %}
+            <!-- 모델 폼 -->
+            {% bootstrap_form form %}
+            <button type='submit' class='btn btn-primary'>로그인</button>
+        </form>
+    </div>
+</div>
+{% endblock body %}
