@@ -54,7 +54,7 @@
 </div>
 
 <script>
-  var csrf_token = $('[name=csrfmiddlewaretoken]').val()
+  var csrf_token = document.getElementsByName("csrfmiddlewaretoken")[0].value;
   
   const userListApp = new Vue({
     delimiters: ['[[', ']]'],
