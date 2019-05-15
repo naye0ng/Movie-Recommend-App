@@ -28,7 +28,6 @@ urlpatterns = [
     path('administor/', rest_api.views.administor, name="administor"),
     path('movie/', include('movie.urls')),
     path('accounts/',include('accounts.urls')),
-    # path('administor/', include('administor.urls')),
     path('api/v1/', include('rest_api.urls')),
     path('docs/', get_swagger_view(title="Movie Recommend App : API Document")),
 ]

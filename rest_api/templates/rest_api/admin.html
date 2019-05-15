@@ -78,7 +78,7 @@
       },
       targetUser :function(user) {
         this.target = user
-        document.getElementById(user.id).classList.toggle('selected-tr');
+        //document.getElementById(user.id).classList.toggle('selected-tr');
       },
       changeUser : function() {
         axios({ method: 'PUT', url: `https://movie-recommend-app-naye0ng.c9users.io/api/v1/users/${this.target.id}/`, headers: this.headers, data: this.target})
