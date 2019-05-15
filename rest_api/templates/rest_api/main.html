@@ -3,38 +3,26 @@
 
 {% block body %}
 <div class="container" id="main">
-  <div class="card-deck">
-    
-    
-    <div class="card">
-      <img src="..." class="card-img-top" alt="...">
-      <div class="card-body">
-        <h5 class="card-title">Card title</h5>
-        <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-        <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+  <div class="card-columns">
+    <div v-for="movie in movieList"> 
+  
+      <div class="card">
+        <img v-bind:src="movie.poster_url" class="card-img-top" alt="..." >
+        <div class="card-img-overlay">
+          <h4 class="card-title text-white">[[ movie.title ]]</h4>
+          <h5 class="card-title text-white">[[ movie.original_title ]]</h5>
+
+        </div>
       </div>
-    </div>
-    <div class="card">
-      <img src="..." class="card-img-top" alt="...">
-      <div class="card-body">
-        <h5 class="card-title">Card title</h5>
-        <p class="card-text">This card has supporting text below as a natural lead-in to additional content.</p>
-        <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-      </div>
-    </div>
-    <div class="card">
-      <img src="..." class="card-img-top" alt="...">
-      <div class="card-body">
-        <h5 class="card-title">Card title</h5>
-        <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This card has even longer content than the first to show that equal height action.</p>
-        <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-      </div>
+      
     </div>
   </div>
 </div>
 
 <script>
   const main = new Vue({
+    delimiters: ['[[', ']]'],
+    
     el: "#main",
     
     data: {
@@ -48,7 +36,8 @@
     created: async function() {
       const movieListUrl = "https://movie-recommendator-don2101.c9users.io/api/v1/movies/"
       const response = await axios.get(movieListUrl)
-      movieList = response.data
+      this.movieList = response.data
+      console.log(this.movieList)
     },
 
   })
