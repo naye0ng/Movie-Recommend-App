@@ -7,10 +7,12 @@
       <a href="{% url 'administor' %}"><div class='navbar-btn'>ADMIN</div></a>
       <a href="{% url 'home' %}"><div class='navbar-btn'>HOME</div></a>
       {% endif %}
+      <a href="{% url 'accounts:detail' user.username %}"><div class='navbar-btn'>{{ user.username }}</div></a>
     {% else %}
     <a href="{% url 'accounts:login' %}"><div class='navbar-btn'>LOGIN</div></a>
     <a href="{% url 'accounts:signup' %}"><div class='navbar-btn'>SIGN UP</div></a>
     {% endif %}
+    
 
  </div>
 </nav>

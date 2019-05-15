@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login as auth_login
 from django.contrib.auth import logout as auth_logout
+from .models import User
 from .forms import CustomUserCreationForm
 
 # Create your views here.
@@ -43,3 +44,19 @@ def signup(request) :
         'form' : form
     }
     return render(request,'accounts/signup.html',content)
+    
+
+def movie_recommend():
+    pass
+
+
+def detail(request, username):
+    user = User.objects.get(username=username)
+    follower_count = user.followings.count()
+    
+    content = {
+        'user': user,
+        'follower_count': follower_count,
+    }
+    
+    return render(request, 'accounts/detail.html', content)

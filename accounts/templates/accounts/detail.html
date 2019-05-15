@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block body %}
+<div class="container" id="account">
+  <h2>{{ user.username }}' page</h2>
+  <!--<p>{{ follower_count }}</p>-->
+  
+
+  <button @click="follow({{user.id}})" class="btn btn-pink">[[ followed ]]</button>
+  
+    
+</div>
+
+
+<script>
+  const app = new Vue({
+    delimiters: ['[[', ']]'],
+      
+    el: "#account",
+      
+    data: {
+      followed: "follow",
+      movieList: [],
+    },
+        
+    methods: {
+      follow: async function(userId) {
+        const followUrl = `https://movie-recommendator-don2101.c9users.io/api/v1/users/${userId}/follow/`
+        const response = await axios.get(followUrl)
+        
+        console.log(response)
+        
+        if(this.followed === "follow") {
+          this.followed = "unfollow"
+        } else {
+          this.followed = "follow"
+        }
+      }
+    },
+      
+      
+  })
+    
+</script>
+{% endblock %}

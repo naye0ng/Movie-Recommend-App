@@ -1,6 +1,7 @@
 from rest_framework.decorators import api_view
 from django.shortcuts import render, get_object_or_404
 from movie.models import Genre, Movie, Review
+from accounts.models import User
 from movie.serializers import MovieSerializer, ReviewSerailizer, GenreSerializer
 from django.contrib.auth.decorators import login_required
 from rest_framework.response import Response
@@ -159,8 +160,23 @@ def user(request, user_id) :
         user.delete()
         return Response(serializer.data)
 
-def user_follow(request) :
-    pass
+
+@api_view(['GET'])
+def user_follow(request, user_id):
+    user = get_object_or_404(User, pk=user_id)
+    
+    if request.user != user:
+        if user in request.user.followers.all():
+            request.user.followers.remove(user)
+            
+            return Response({'message': 'follow 취소'})
+        else:
+            request.user.followers.add(user)
+            
+            return Response({'message': 'follow 추가'})
+        
+    
+    
 
 
 
