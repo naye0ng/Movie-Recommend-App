@@ -11,6 +11,7 @@ urlpatterns = [
     
     path('get_genre/', views.get_genre),
     path('get_movie/', views.get_movie),
+    path('get_trailer/', views.get_trailer),
     
     path('genres/', views.genres), # GET
     path('users/', views.users), # GET

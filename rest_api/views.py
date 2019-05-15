@@ -7,6 +7,7 @@ from django.contrib.auth.decorators import login_required
 from rest_framework.response import Response
 import http.client
 import json
+import requests
 
 from accounts.serializers import CustomUserSerializer
 from accounts.models import User
@@ -242,3 +243,18 @@ def get_movie(request):
             
             for genre in genre_list:
                 created_movie.genres.add(Genre.objects.get(code=genre))
+
+
+def get_trailer(request):
+    youtube_key = "AIzaSyCMQLDLoFL6RLygdExdPSjOXzf_RjItfoU"
+    
+    movie_list = Movie.objects.all()
+    
+    for movie in movie_list:
+        search = movie.original_title + " trailer"
+        youtube_url = f"https://www.googleapis.com/youtube/v3/search?part=snippet&order=viewCount&q={search}&key={youtube_key}&maxResults=1"
+        
+        res = requests.get(youtube_url)
+        data = res.text
+        dic = json.loads(data)
+        print(dic)
