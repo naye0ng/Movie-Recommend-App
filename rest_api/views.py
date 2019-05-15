@@ -1,7 +1,7 @@
 from rest_framework.decorators import api_view
 from django.shortcuts import render, get_object_or_404
 from movie.models import Genre, Movie, Review
-from movie.serializers import MovieSerializer, ReviewSerailizer
+from movie.serializers import MovieSerializer, ReviewSerailizer, GenreSerializer
 from django.contrib.auth.decorators import login_required
 from rest_framework.response import Response
 import http.client
@@ -123,11 +123,19 @@ def movie_recommendation(user):
 
 # naye0ng
 @api_view(['GET'])
+def genres(request) :
+    genres = Genre.objects.all()
+    serializer = GenreSerializer(genres, many=True)
+    return Response(serializer.data)
+    
+@login_required
+@api_view(['GET'])
 def users(request) :
     users = User.objects.all()
     serializer = CustomUserSerializer(users, many=True)
     return Response(serializer.data)
-    
+
+@login_required
 @api_view(['GET','PUT', 'DELETE'])
 def user(request, user_id) :
     user = get_object_or_404(User,pk=user_id)
