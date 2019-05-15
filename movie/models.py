@@ -20,7 +20,7 @@ class Movie(models.Model):
     trailer_url = models.CharField(max_length=200, blank=True)
     release_date = models.CharField(max_length=50)
     genres = models.ManyToManyField(Genre, related_name='movie')
-    user_like = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='like_movie')
+    user_like = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='like_movie', blank=True)
 
     def __str__(self):
         return f"영화 제목: {self.title}"

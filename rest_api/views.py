@@ -12,6 +12,11 @@ TMBb_KEY = "c32b7a92dabcaf36aea7c9e6d9ad689e"
 # Create your views here.
 
 # don2101
+
+def main(request):
+    
+    return render(request, 'rest_api/main.html')
+
 @api_view(['GET', 'POST'])
 def movies(request):
     if request.method == 'GET':
@@ -102,6 +107,35 @@ def review_detail(request, review_id):
         review.delete()
 
 
+def movie_recommendation(user):
+    pass
+
+
+
+
+# naye0ng
+def users(request) :
+    pass
+
+def user_detail(request) :
+    pass
+
+def user_follow(request) :
+    pass
+
+def login(request):
+    pass
+
+def logout(request):
+    pass
+
+
+
+
+
+
+
+# 장르, 영화 정보 수집, model로 옮기기?
 def get_genre(request):
     genre_url = f"https://api.themoviedb.org/3/genre/movie/list?api_key={TMBb_KEY}&language=ko-KR"
     
@@ -133,31 +167,14 @@ def get_movie(request):
         
         for movie in movie_list:
             genre_list = movie.get('genre_ids')
-            created_movie = Movie.objects.create(
+            created_movie=Movie.objects.create(
                 movie_code=movie.get('id'),
                 title=movie.get('title'),
                 original_title=movie.get('original_title'),
-                poster_url=movie.get('poster_path'),
+                poster_url="https://image.tmdb.org/t/p/original"+movie.get('poster_path'),
                 description=movie.get('overview'),
                 release_date=movie.get('release_date'),
             )
             
             for genre in genre_list:
                 created_movie.genres.add(Genre.objects.get(code=genre))
-
-
-# naye0ng
-def users(request) :
-    pass
-
-def user_detail(request) :
-    pass
-
-def user_follow(request) :
-    pass
-
-def login(request):
-    pass
-
-def logout(request):
-    pass

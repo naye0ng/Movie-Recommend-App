@@ -18,10 +18,12 @@ from django.urls import path, include
 from movie import urls
 from administor import urls
 from rest_api import urls
+import rest_api
 from rest_framework_swagger.views import get_swagger_view
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', rest_api.views.main),
     path('movie/', include('movie.urls')),
     path('administor/', include('administor.urls')),
     path('api/v1/', include('rest_api.urls')),
