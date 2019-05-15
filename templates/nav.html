@@ -1,7 +1,111 @@
-<nav class="navbar navbar-expand-lg">
-  <div class="row navbar-menu">
-    <a href="" data-toggle="modal" data-target="#exampleModal"><div class='navbar-btn'>LOGIN</div></a>
-    <a href=""><div class='navbar-btn'>SIGN IN</div></a>
-    <a href=""><div class='navbar-btn'>LIST</div></a>
- </div>
-</nav>
+<div id="modal-app">
+  <!--navbar-->
+  <nav class="navbar navbar-expand-lg">
+    <div class="row navbar-menu">
+      <button data-toggle="modal" data-target="#Modal" @click="modalOpen('login')"><div class='navbar-btn'>LOGIN</div></button>
+      <button data-toggle="modal" data-target="#Modal" @click="modalOpen('signup')"><div class='navbar-btn'>SIGN UP</div></button>
+      <a href=""><div class='navbar-btn'>LIST</div></a>
+   </div>
+  </nav>
+  
+  <!--modal-->
+  <div class="modal fade" id="Modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">[[ title ]]</h5>
+          <button id='modal-close' type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form>
+            {% csrf_token %}
+            <div class="form-group">
+              <label for="id" class="col-form-label">ID:</label>
+              <input type="text" class="form-control" id="id" v-model='user.username'>
+            </div>
+            <div class="form-group">
+              <label for="passwd" class="col-form-label">PASSWORD:</label>
+              <input type="password" class="form-control" id="passwd" v-model='user.password'>
+            </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-pink" @click="doTargeFunc">Send</button>
+        </div>
+      </form>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+
+<script>
+  var csrf_token = $('[name=csrfmiddlewaretoken]').val()
+
+  var modal = new Vue({
+    delimiters: ['[[', ']]'],
+    el : '#modal-app',
+    data : {
+      target :'',
+      title : '',
+      user : {
+        username : '',
+        password:'',
+      },
+      headers :{
+        'accept' : 'application/json',
+        'Content-Type': 'application/json', 
+        'X-CSRFToken':csrf_token,
+      }
+    },
+    methods :{
+      modalOpen : function(target){
+        if (target === 'signup'){
+          this.title = 'Sign up'
+        }else{
+          this.title = 'Login'
+        }
+        this.target = target
+      },
+      doTargeFunc : function(){
+        if (this.target === 'signup'){
+          this.signup()
+        }else {
+          this.login()
+        }
+      },
+      signup : function(){
+        axios({ method: 'POST', url: 'https://movie-recommend-app-naye0ng.c9users.io/api/v1/signup/', headers: this.headers, data: this.user})
+          .then(response => {
+            // 가입 성공
+            if (response.status == 200) {
+              alert("성공적으로 가입되었습니다. \n로그인 해주세요.")
+              document.querySelector('#modal-close').click()
+              this.user = {}
+            }
+          }).catch(error => {
+            alert("다시 시도해주세요.")
+          })
+      },
+      login : function(){
+        axios({ method: 'POST', url: 'https://movie-recommend-app-naye0ng.c9users.io/api/v1/login/', headers: this.headers, data: this.user})
+          .then(response => {
+            // 가입 성공
+            if (response.status == 200) {
+              alert("로그인 성공")
+              document.querySelector('#modal-close').click()
+              this.user = {}
+            }
+          }).catch(error => {
+            alert("다시 시도해주세요.")
+          })
+      }
+    }
+  })
+  
+</script>
+
+
