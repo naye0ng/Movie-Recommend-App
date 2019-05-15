@@ -39,19 +39,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'rest_framework.authtoken',
-    'rest_auth',
     'movie',
     'administor',
     'rest_api',
     'accounts',
 ]
 
-REST_FRAMEWORK = {
-    'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.AllowAny',
-    ]
-}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -140,7 +133,3 @@ STATICFILES_DIRS = (
 
 # Custom User 
 AUTH_USER_MODEL="accounts.User"
-
-# TODO : Login Email 안받음
-# ACCOUNT_EMAIL_REQUIRED = False
-# ACCOUNT_EMAIL_VERIFICATION = 'none'
