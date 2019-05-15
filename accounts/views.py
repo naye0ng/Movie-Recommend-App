@@ -44,10 +44,6 @@ def signup(request) :
         'form' : form
     }
     return render(request,'accounts/signup.html',content)
-    
-
-def movie_recommend():
-    pass
 
 
 def detail(request, username):
@@ -60,3 +56,5 @@ def detail(request, username):
     }
     
     return render(request, 'accounts/detail.html', content)
+    
+    

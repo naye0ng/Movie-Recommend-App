@@ -116,7 +116,8 @@ def review_detail(request, movie_id, review_id):
         return Response({'message', '삭제 완료'})
 
 
-def movie_recommendation(user):
+@api_view(['GET'])
+def movie_recommend(request, user_id):
     pass
 
 
@@ -165,15 +166,28 @@ def user(request, user_id) :
 def user_follow(request, user_id):
     user = get_object_or_404(User, pk=user_id)
     
-    if request.user != user:
-        if user in request.user.followers.all():
-            request.user.followers.remove(user)
-            
-            return Response({'message': 'follow 취소'})
-        else:
-            request.user.followers.add(user)
-            
-            return Response({'message': 'follow 추가'})
+    # if request.user != user:
+    if user in request.user.followers.all():
+        request.user.followers.remove(user)
+        
+        return Response({'message': 'follow 취소'})
+    else:
+        request.user.followers.add(user)
+        
+        return Response({'message': 'follow 추가'})
+        
+
+@api_view(['GET'])
+def check_follow(request, user_id):
+    user = get_object_or_404(User, pk=user_id)
+    
+    if user in request.user.followers.all():
+        
+        return Response({'message': True})
+    else:
+        request.user.followers.add(user)
+        
+        return Response({'message': False})
         
     
     

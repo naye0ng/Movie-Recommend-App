@@ -5,10 +5,10 @@
   <h2>{{ user.username }}' page</h2>
   <!--<p>{{ follower_count }}</p>-->
   
-
   <button @click="follow({{user.id}})" class="btn btn-pink">[[ followed ]]</button>
   
-    
+  
+  
 </div>
 
 
@@ -19,7 +19,7 @@
     el: "#account",
       
     data: {
-      followed: "follow",
+      followed: "",
       movieList: [],
     },
         
@@ -35,9 +35,23 @@
         } else {
           this.followed = "follow"
         }
-      }
-    },
+      },
       
+      // movieRecommend: async function(userId) {
+        
+      // }
+    },
+    
+    created: async function() {
+      const followUrl = "https://movie-recommendator-don2101.c9users.io/api/v1/users/{{user.id}}/checkfollow/"
+      const response = await axios.get(followUrl)
+      
+      if(response.data['message']) {
+        this.followed = "unfollow"
+      } else {
+        this.followed = "follow"
+      }
+    }
       
   })
     
