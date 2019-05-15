@@ -2,11 +2,15 @@
   <div class="row navbar-menu">
     {% if user.username %}
     <a href="{% url 'accounts:logout' %}"><div class='navbar-btn'>LOGOUT</div></a>
+      {% if user.isAdmin %}
+      <!--관리자/두개 토글할 것!-->
+      <a href="{% url 'administor' %}"><div class='navbar-btn'>ADMIN</div></a>
+      <a href="{% url 'home' %}"><div class='navbar-btn'>HOME</div></a>
+      {% endif %}
     {% else %}
     <a href="{% url 'accounts:login' %}"><div class='navbar-btn'>LOGIN</div></a>
     <a href="{% url 'accounts:signup' %}"><div class='navbar-btn'>SIGN UP</div></a>
     {% endif %}
-    
-    <a href=""><div class='navbar-btn'>LIST</div></a>
+
  </div>
 </nav>

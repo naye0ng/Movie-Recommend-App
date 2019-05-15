@@ -54,6 +54,9 @@ li {
     color: #0f1015;
 }
 
+.btn {
+    padding : 2px 20px;
+}
 .btn-pink {
     color: #fff;
     background-color: #ed145b;
