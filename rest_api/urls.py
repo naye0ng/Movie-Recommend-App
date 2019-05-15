@@ -10,6 +10,7 @@ urlpatterns = [
     path('get_genre/', views.get_genre),
     path('get_movie/', views.get_movie),
     
+    path('genres/', views.genres), # GET
     path('users/', views.users), # GET
     path('users/<int:user_id>/', views.user), # GET, PUT, DELETE
     path('users/<int:user_id>/follow/', views.user_follow), # GET

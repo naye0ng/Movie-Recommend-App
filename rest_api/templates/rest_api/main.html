@@ -3,15 +3,69 @@
 
 {% block body %}
 <div class="container" id="main">
-  <div class="card-columns">
+  <div v-show="loading" class="card-columns">
+    
+    <div class="card text-white bg-dark ">
+      <div class="card-body">
+        <h5 class="card-title">영화 추가</h5>
+          {% csrf_token %}
+          <div class="form-group">
+            <label for="original_title">Original Title</label>
+            <input v-model="movie.original_title" type="text" class="form-control" id="original_title" placeholder="영화 제목을 입력하세요.">
+          </div>
+          <div class="form-group">
+            <label for="title">Title</label>
+            <input v-model="movie.title" type="text" class="form-control" id="title" placeholder="영화 제목을 입력하세요.">
+          </div>
+          <div class="form-group">
+            <label for="description">Description</label>
+            <textarea v-model="movie.description" class="form-control" id="description" rows="3" placeholder="영화 내용을 입력하세요."></textarea>
+          </div>
+          <div class="form-group">
+            <label for="genres">Genres 
+              <small id="genresHelp" class="form-text text-muted">장르를 선택하세요.</small>
+            </label> 
+            <br>
+            
+            <div v-for="genre in genres" class="form-check form-check-inline">
+              <input class="form-check-input" type="checkbox" id="genres" :value="genre.code">
+              <label class="form-check-label" for="genres">[[ genre.name ]]</label>
+            </div>
+            
+          </div>
+          <div class="form-group">
+            <label for="release_date">Release Date
+              <small id="genresHelp" class="form-text text-muted">개봉일을 선택하세요.</small>
+            </label>
+            <input v-model="movie.release_date" class="form-control" type="date" id="release_date">
+          </div>
+          <div class="form-group">
+            <label for="poster_url">Poster Url</label>
+            <input v-model="movie.poster_url" type="text" class="form-control" id="poster_url" placeholder="포스터 url을 입력하세요.">
+          </div>
+          <div class="form-group">
+            <label for="trailer_url">Trailer Url
+              <small id="genresHelp" class="form-text text-muted">해당 항목은 선택입니다.</small>
+            </label>
+            <input v-model="movie.trailer_url" type="text" class="form-control" id="trailer_url" placeholder="예고편 url을 입력하세요.">
+          </div>
+          
+          <br>
+          <button class="btn btn-pink rounded-pill mr-1" >추가</button>
+          
+          
+        
+          
+          
+      </div>
+    </div>
+    
     <div v-for="movie in movieList"> 
-  
       <div class="card">
-        <img v-bind:src="movie.poster_url" class="card-img-top" alt="..." >
+        <img :src="movie.poster_url" class="card-img-top" alt="..." >
         <div class="card-img-overlay">
           <h4 class="card-title text-white">[[ movie.title ]]</h4>
           <h5 class="card-title text-white">[[ movie.original_title ]]</h5>
-
         </div>
       </div>
       
@@ -22,11 +76,20 @@
 <script>
   const main = new Vue({
     delimiters: ['[[', ']]'],
-    
     el: "#main",
-    
     data: {
-        movieList: []
+        movieList: [],
+        loading : false,
+        movie:{
+          original_title: '',
+          title: '',
+          description: '',
+          genres: [],
+          poster_url: '',
+          release_date: '',
+          trailer_url: '',
+        },
+        genres :{}
     },
     
     methods: {
@@ -34,10 +97,16 @@
     },
     
     created: async function() {
-      const movieListUrl = "https://movie-recommendator-don2101.c9users.io/api/v1/movies/"
+      const movieListUrl = "https://movie-recommend-app-naye0ng.c9users.io/api/v1/movies/"
+      const genreUrl= "https://movie-recommend-app-naye0ng.c9users.io/api/v1/genres/"
       const response = await axios.get(movieListUrl)
+      const res = await axios.get(genreUrl)
       this.movieList = response.data
+      this.genres = res.data
+      
+      this.loading = true
       console.log(this.movieList)
+      console.log(this.genres)
     },
 
   })
