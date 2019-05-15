@@ -58,3 +58,12 @@ li {
     color: #fff;
     background-color: #ed145b;
 }
+
+.card:hover {
+    transform: scale(1.07);
+}
+
+.movie-image {
+   height: 700px;
+   width: 500px;
+}

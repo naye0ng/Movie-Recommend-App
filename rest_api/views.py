@@ -70,11 +70,11 @@ def movie_like(request, movie_id):
         
         return Response({'message': 'like'})
     
-
-@api_view(['GET', 'POST'])
+@login_required
+@api_view(['POST', 'GET'])
 def reviews(request, movie_id):
     movie = get_object_or_404(Movie, pk=movie_id)
-    
+
     if request.method == 'GET':
         review_list = movie.review_set.all()
         
@@ -83,8 +83,9 @@ def reviews(request, movie_id):
         return Response(data=serializer.data)
     else:
         serializer = ReviewSerailizer(data=request.data)
-        
+        print(serializer)
         if serializer.is_valid():
+            print(serializer)
             serializer.save(movie=movie, user=request.user)
 
             return Response({'message': '작성 완료'})
