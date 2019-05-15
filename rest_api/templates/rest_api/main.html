@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+
+{% block body %}
+<div id="main">
+  <!-- TODO: 영화 리스트 뿌리기 -->
+  
+</div>
+
+<script>
+  const main = new Vue({
+    el: "#main",
+    
+    data: {
+        
+    },
+    
+    methods: {
+        
+    },
+    
+    created: async function() {
+      const movieListUrl = "https://movie-recommendator-don2101.c9users.io/api/v1/movies/"
+      const response = await axios.get(movieListUrl)
+      console.log(response)
+    },
+
+  })
+  
+  
+</script>
+{% endblock %}
