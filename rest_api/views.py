@@ -120,19 +120,30 @@ def get_genre(request):
         Genre.objects.create(code=genre.get('id'), name=genre.get('name'))
     
 def get_movie(request):
-    movie_url = f"https://api.themoviedb.org/3/movie/popular?api_key={TMBb_KEY}&language=ko-KR&page=1"
-
-    conn = http.client.HTTPSConnection("api.themoviedb.org")
-    
-    payload = "{}"
-    
-    conn.request("GET", movie_url, payload)
-    
-    res = conn.getresponse()
-    data = res.read().decode("utf-8")
-    dic = json.loads(data)
-    
-    print(dic)
+    for i in range(1, 11):
+        movie_url = f"https://api.themoviedb.org/3/movie/popular?api_key={TMBb_KEY}&language=ko-KR&page={i}"
+        print(movie_url)
+        conn = http.client.HTTPSConnection("api.themoviedb.org")
+        payload = "{}"
+        conn.request("GET", movie_url, payload)
+        
+        res = conn.getresponse()
+        data = res.read().decode("utf-8")
+        movie_list = json.loads(data).get('results')
+        
+        for movie in movie_list:
+            genre_list = movie.get('genre_ids')
+            created_movie = Movie.objects.create(
+                movie_code=movie.get('id'),
+                title=movie.get('title'),
+                original_title=movie.get('original_title'),
+                poster_url=movie.get('poster_path'),
+                description=movie.get('overview'),
+                release_date=movie.get('release_date'),
+            )
+            
+            for genre in genre_list:
+                created_movie.genres.add(Genre.objects.get(code=genre))
 
 
 # naye0ng
