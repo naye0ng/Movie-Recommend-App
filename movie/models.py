@@ -12,7 +12,6 @@ class Genre(models.Model):
 
 
 class Movie(models.Model):
-    movie_code = models.IntegerField(unique=True)
     title = models.CharField(max_length=200)
     original_title = models.CharField(max_length=200)
     description = models.TextField()
