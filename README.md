@@ -42,7 +42,7 @@ pip install -r requirements.txt
 
 ### (1) 팀원 정보 및 업무 분담 내역
 
-#### 김나영
+#### 김나영 [Github](https://github.com/naye0ng)
 
 - 유저 가입, 로그인 기능 구현
 - 관리자 페이지 구성
@@ -52,7 +52,7 @@ pip install -r requirements.txt
 
 
 
-#### 염희돈
+#### 염희돈 [Github](https://github.com/don2101)
 
 - 영화 정보 제공
 - 유저 상세페이지
