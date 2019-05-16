@@ -6,7 +6,7 @@
   {% csrf_token %}
   <div v-if="listOn" class="container">
     <div v-show="loading" class="card-columns">
-    
+    {% if user.isAdmin %}
       <div id='card-add-movie' class="card text-white bg-dark movie-card">
         <div class="card-body">
           <h5 class="card-title">영화 추가</h5>
@@ -54,7 +54,7 @@
  
         </div>
       </div>
-  
+      {% endif %}
       <!-- 영화 list 출력 -->
       <div v-for="movie in movieList" > 
         <div class="card movie-card" style="background-color: #181818" @click="getMovie(movie.id)">
