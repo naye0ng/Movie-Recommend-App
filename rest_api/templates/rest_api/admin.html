@@ -71,7 +71,7 @@
     },
     methods: {
       getUser : function(){
-        axios({ method: 'GET', url: 'https://movie-recommend-app-naye0ng.c9users.io/api/v1/users/'})
+        axios({ method: 'GET', url: `https://${BASE_URL}/api/v1/users/`})
         .then(response => {
           this.users = response.data
         })
@@ -81,7 +81,7 @@
         //document.getElementById(user.id).classList.toggle('selected-tr');
       },
       changeUser : function() {
-        axios({ method: 'PUT', url: `https://movie-recommend-app-naye0ng.c9users.io/api/v1/users/${this.target.id}/`, headers: this.headers, data: this.target})
+        axios({ method: 'PUT', url: `https://${BASE_URL}/api/v1/users/${this.target.id}/`, headers: this.headers, data: this.target})
           .then(response => {
             //요청이 완료되면 내용 지우고 메시지 띄우기
             this.message[this.target.id] = `${this.target.username}의 정보가 성공적으로 수정되었습니다.`
@@ -91,7 +91,7 @@
         })
       },
       deleteUser : function(){
-        axios({ method: 'DELETE', url: `https://movie-recommend-app-naye0ng.c9users.io/api/v1/users/${this.target.id}/`, headers: this.headers})
+        axios({ method: 'DELETE', url: `https://${BASE_URL}/api/v1/users/${this.target.id}/`, headers: this.headers})
           .then(response => {
             //요청이 완료되면 내용 지우기
             this.message[this.target.id] = `${this.target.username}의 정보가 성공적으로 삭제되었습니다.`

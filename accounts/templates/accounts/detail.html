@@ -51,7 +51,6 @@
     el: "#account",
       
     data: {
-      BASE_URL : 'movie-recommendator-don2101.c9users.io',
       followed: "",
       
       like_genre: [],
@@ -60,7 +59,7 @@
         
     methods: {
       follow: async function(userId) {
-        const followUrl = `https://${this.BASE_URL}/api/v1/users/${userId}/follow/`
+        const followUrl = `https://${BASE_URL}/api/v1/users/${userId}/follow/`
         const response = await axios.get(followUrl)
 
         if(this.followed === "follow") {
@@ -74,7 +73,7 @@
         axios.defaults.xsrfCookieName = 'csrftoken'
         axios.defaults.xsrfHeaderName = "X-CSRFTOKEN"
 
-        const genreUrl = `https://${this.BASE_URL}/api/v1/users/${userId}/genre/`
+        const genreUrl = `https://${BASE_URL}/api/v1/users/${userId}/genre/`
         const token = csrf_token
         
         const payload = {
@@ -109,7 +108,7 @@
       },
       
       getRecommend: async function() {
-        const movieUrl = `https://${this.BASE_URL}/api/v1/movies/{{user.id}}/recommend/`
+        const movieUrl = `https://${BASE_URL}/api/v1/movies/{{user.id}}/recommend/`
         const movieResponse = await axios.get(movieUrl)
         
         this.movie_list = movieResponse.data
@@ -119,7 +118,7 @@
     
     created: async function() {
       // follow 확인 기능
-      const followUrl = `https://${this.BASE_URL}/api/v1/users/{{user.id}}/checkfollow/`
+      const followUrl = `https://${BASE_URL}/api/v1/users/{{user.id}}/checkfollow/`
       const response = await axios.get(followUrl)
       
       if(response.data['message']) {
@@ -130,7 +129,7 @@
       
       
       // 기존에 선정했던 genre 가져오는 기능
-      const genreUrl = `https://${this.BASE_URL}/api/v1/users/{{user.id}}/genre/`
+      const genreUrl = `https://${BASE_URL}/api/v1/users/{{user.id}}/genre/`
       const genreResponse = await axios.get(genreUrl)
       
       const genreData = genreResponse.data
