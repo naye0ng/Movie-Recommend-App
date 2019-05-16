@@ -171,7 +171,6 @@
     delimiters: ['[[', ']]'],
     el: "#main",
     data: {
-        BASE_URL : 'movie-recommendator-don2101.c9users.io',
         movieList: [],
         // naye0ng
         loading : false,
@@ -208,7 +207,7 @@
     
     methods: {
         getReview: async function(movieId) {
-          const reviewUrl = `https://${this.BASE_URL}/api/v1/movies/${movieId}/reviews/`
+          const reviewUrl = `https://${BASE_URL}/api/v1/movies/${movieId}/reviews/`
           const response = await axios.get(reviewUrl)
           response.data.forEach(arrReview =>{
             this.$set(this.$data.reviewList, arrReview['id'], arrReview)
@@ -216,7 +215,7 @@
         },
       
         getMovie: async function(movieId) {
-          const movieUrl = `https://${this.BASE_URL}/api/v1/movies/${movieId}/`
+          const movieUrl = `https://${BASE_URL}/api/v1/movies/${movieId}/`
           const response = await axios.get(movieUrl)
           
           this.getReview(movieId)
@@ -227,7 +226,7 @@
 
         
         postReview: function(movieId) {
-          const reviewUrl = `https://${this.BASE_URL}/api/v1/movies/${movieId}/reviews/`
+          const reviewUrl = `https://${BASE_URL}/api/v1/movies/${movieId}/reviews/`
           const token = jQuery("[name=csrfmiddlewaretoken]").val();
           
           axios.defaults.xsrfCookieName = 'csrftoken'
@@ -259,7 +258,7 @@
         },
         
         updateReview: async function() {
-          const reviewUrl = `https://${this.BASE_URL}/api/v1/movies/${this.movieId}/reviews/${this.reviewId}/`
+          const reviewUrl = `https://${BASE_URL}/api/v1/movies/${this.movieId}/reviews/${this.reviewId}/`
           const token = jQuery("[name=csrfmiddlewaretoken]").val();
           
           axios.defaults.xsrfCookieName = 'csrftoken'
@@ -284,7 +283,7 @@
         },
         
         deleteReview: async function(movieId, reviewId) {
-          const reviewUrl = `https://${this.BASE_URL}/api/v1/movies/${movieId}/reviews/${reviewId}/`
+          const reviewUrl = `https://${BASE_URL}/api/v1/movies/${movieId}/reviews/${reviewId}/`
           const token = jQuery("[name=csrfmiddlewaretoken]").val();
           
           axios.defaults.xsrfCookieName = 'csrftoken'
@@ -303,7 +302,7 @@
         },
         
         addMovie : function() {
-          const addMovieUrl = `https://${this.BASE_URL}/api/v1/movies/`
+          const addMovieUrl = `https://${BASE_URL}/api/v1/movies/`
           axios({ method: 'POST', url: addMovieUrl, headers: this.headers, data:this.movie })
           .then(response => {
             this.movieList.unshift(this.movie)
@@ -323,8 +322,8 @@
     },
     
     created: async function() {
-      const movieListUrl = `https://${this.BASE_URL}/api/v1/movies/`
-      const genreUrl= `https://${this.BASE_URL}/api/v1/genres/`
+      const movieListUrl = `https://${BASE_URL}/api/v1/movies/`
+      const genreUrl= `https://${BASE_URL}/api/v1/genres/`
       const response = await axios.get(movieListUrl)
       const res = await axios.get(genreUrl)
       this.movieList = response.data
