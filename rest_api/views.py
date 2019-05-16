@@ -188,12 +188,14 @@ def genres(request) :
     serializer = GenreSerializer(genres, many=True)
     return Response(serializer.data)
     
+    
 @login_required
 @api_view(['GET'])
 def users(request) :
     users = User.objects.all()
     serializer = CustomUserSerializer(users, many=True)
     return Response(serializer.data)
+
 
 @login_required
 @api_view(['GET','PUT', 'DELETE'])
@@ -248,9 +250,6 @@ def check_follow(request, user_id):
         return Response({'message': False})
 
         
-    
-
-
 
 
 # 장르, 영화 정보 수집, model로 옮기기?

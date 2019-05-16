@@ -118,3 +118,8 @@ li {
 .div-comment p{
     margin-bottom: 0;
 }
+
+.border-puple{
+    border-color: #fff !important;
+    background-color: #ed145b !important;
+}

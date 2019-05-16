@@ -252,7 +252,7 @@
           .then(response => {
             // reviewList에 값 넣기
             this.$set(this.$data.reviewList, response.data['id'], response.data)
-            console.log(this.reviewList)
+
           })
         },
         
@@ -261,8 +261,6 @@
           this.reviewComment = review.comment
           this.movieId = movieId
           this.reviewId = review.id
-          
-          console.log(review)
         },
         
         updateReview: async function() {
@@ -284,7 +282,6 @@
           
           axios({ method: 'PUT', url: reviewUrl, headers: payload, data: content })
           .then(response => {
-            console.log(response)
           })
         },
         
@@ -304,16 +301,13 @@
           .then(response => {
             // 삭제
             this.$delete(this.$data.reviewList, response.data['id'])
-            console.log(this.reviewList)
           })
         },
         
         addMovie : function() {
-          console.log(this.movie)
           const addMovieUrl = `https://${this.BASE_URL}/api/v1/movies/`
           axios({ method: 'POST', url: addMovieUrl, headers: this.headers, data:this.movie })
           .then(response => {
-            console.log(response)
             this.movieList.unshift(this.movie)
             alert(`${this.movie.title} 영화가 성공적으로 등록되었습니다.`)
             this.movie = {
@@ -339,8 +333,6 @@
       this.genres = res.data
       
       this.loading = true
-      console.log(this.movieList)
-      console.log(this.genres)
       
       this.listOn = true
     },

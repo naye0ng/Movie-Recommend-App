@@ -3,27 +3,29 @@
 {% block body %}
 <div class="container" id="account">
   {% csrf_token %}
-  <h2>{{ user.username }}' page</h2>
-  <!--<p>{{ follower_count }}</p>-->
-  
+  <h1>{{ user.username }}' page</h1>
   <button @click="follow({{user.id}})" class="btn btn-pink">[[ followed ]]</button>
   
-  <h3>선호 장르</h3>
+
+  <h2 class="mt-5">선호 장르</h2>
   
+  
+  <div class="row ">
   {% for genre in genre_list %}
-    <div class="form-check form-check-inline">
+    <div class="form-check form-check-inline col-2 mt-3 ml-3 border border-puple">
       {% if genre in like_genres %}
-        <input @click="changeCheck({{genre.id}})" class="form-check-input" type="checkbox" checked="checked">
+        <input @click="changeCheck({{genre.id}})" class="ml-2 form-check-input" type="checkbox" checked="checked">
       {% else %}
-        <input @click="changeCheck({{genre.id}})" class="form-check-input" type="checkbox">
+        <input @click="changeCheck({{genre.id}})" class="ml-2 form-check-input" type="checkbox">
       {% endif %}
       <label class="form-check-label">{{ genre.name }}</label>
     </div>
   {% endfor %}
+  </div>
   
-  <button @click="updateLikeGenre({{user.id}})" class="btn btn-pink">저장</button>
+  <button @click="updateLikeGenre({{user.id}})" class="btn btn-pink mt-4">저장</button>
   
-  <button @click="getRecommend()" class="btn btn-pink">영화 추천</button>
+  <button @click="getRecommend()" class="btn btn-pink mt-4 ml-2">영화 추천</button>
   
   <div class="card-columns">
     <div v-for="movie in movie_list">
@@ -60,9 +62,7 @@
       follow: async function(userId) {
         const followUrl = `https://${this.BASE_URL}/api/v1/users/${userId}/follow/`
         const response = await axios.get(followUrl)
-        
-        console.log(response)
-        
+
         if(this.followed === "follow") {
           this.followed = "unfollow"
         } else {
@@ -86,12 +86,10 @@
         const content = {
           "like_genre": this.like_genre
         }
-        
-        console.log(content)
 
         axios({ method: 'PUT', url: genreUrl, headers: payload, data: content })
         .then(response => {
-          console.log(response)
+          
         })
 
       },

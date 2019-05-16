@@ -23,11 +23,11 @@ def login(request) :
     }
     return render(request,'accounts/login.html',content)
 
+
 def logout(request) :
     auth_logout(request)
 
     return redirect('home')
-
 
 
 def signup(request) :
@@ -47,6 +47,7 @@ def signup(request) :
     return render(request,'accounts/signup.html',content)
 
 
+# 유저 상세 페이지
 def detail(request, username):
     user = User.objects.get(username=username)
     follower_count = user.followings.count()
