@@ -279,9 +279,8 @@
           console.log(content)
           axios({ method: 'PUT', url: reviewUrl, headers: payload, data: content })
           .then(response => {
-            //모달 종료
+            //모달창 종료이벤트 발생
             document.querySelector('#modal-close').click()
-            // 댓글창 정보 변경
             this.$set(this.$data.reviewList, response.data['id'], response.data)
           })
         },
