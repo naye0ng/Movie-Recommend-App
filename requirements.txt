@@ -2,7 +2,9 @@ certifi==2019.3.9
 chardet==3.0.4
 coreapi==2.3.3
 coreschema==0.0.4
+defusedxml==0.6.0
 Django==2.1.8
+django-bootstrap4==0.0.8
 django-rest-framework==0.1.0
 django-rest-swagger==2.2.0
 djangorestframework==3.9.4
@@ -10,9 +12,16 @@ idna==2.8
 itypes==1.1.0
 Jinja2==2.10.1
 MarkupSafe==1.1.1
+oauthlib==3.0.1
 openapi-codec==1.3.2
+PyJWT==1.7.1
+python3-openid==3.1.0
 pytz==2019.1
 requests==2.21.0
+requests-oauthlib==1.2.0
 simplejson==3.16.0
+six==1.12.0
+social-auth-app-django==3.1.0
+social-auth-core==3.1.0
 uritemplate==3.0.0
 urllib3==1.24.3
