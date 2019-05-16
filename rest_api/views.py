@@ -128,7 +128,7 @@ def review_detail(request, movie_id, review_id):
         if serializer.is_valid():
             serializer.save()
             
-            return Response({'message', '수정 완료'})
+            return Response(serializer.data)
         return Response(serializer.error)
     else:
         review.delete()
