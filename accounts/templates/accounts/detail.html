@@ -19,13 +19,14 @@
     el: "#account",
       
     data: {
+      BASE_URL : 'movie-recommend-app-naye0ng.c9users.io',
       followed: "",
       movieList: [],
     },
         
     methods: {
       follow: async function(userId) {
-        const followUrl = `https://movie-recommendator-don2101.c9users.io/api/v1/users/${userId}/follow/`
+        const followUrl = `https://${this.BASE_URL}/api/v1/users/${userId}/follow/`
         const response = await axios.get(followUrl)
         
         console.log(response)
@@ -43,7 +44,7 @@
     },
     
     created: async function() {
-      const followUrl = "https://movie-recommendator-don2101.c9users.io/api/v1/users/{{user.id}}/checkfollow/"
+      const followUrl = `https://${this.BASE_URL}/api/v1/users/{{user.id}}/checkfollow/`
       const response = await axios.get(followUrl)
       
       if(response.data['message']) {
