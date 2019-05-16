@@ -1,4 +1,4 @@
-# Movie Plus
+# Movie Flex
 
 최신 영화에 대한 데이터를 수집하여, 유저에게 영화 정보를 제공하는 서비스
 
@@ -24,8 +24,11 @@
 
 - 개발 언어: python(3.6.8), html, css, javascript
 - framework: django(2.1.8), Vue.js, django rest framework
-
-
+- requirements.txt : package lit
+```shell
+# package 설치
+pip install -r requirements.txt
+```
 
 ### (2) 배포 환경
 
@@ -114,11 +117,10 @@
 
 
 
-
-
 ### (4) 배포 서버 URL
 
-[메인페이지](<https://movie-recommendator-don2101.c9users.io/>)
+[don2101 메인페이지](https://movie-recommendator-don2101.c9users.io/)
 
+[naye0ng 메인페이지](https://movie-recommend-app-naye0ng.c9users.io/)
 
 
