@@ -14,7 +14,7 @@ class MovieSerializer(serializers.ModelSerializer):
         
 class ReviewSerailizer(serializers.ModelSerializer):
     user = serializers.StringRelatedField()
-    
+
     class Meta:
         model = Review
         fields = [ 'score', 'comment', 'id', 'user' ]

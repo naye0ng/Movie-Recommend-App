@@ -112,7 +112,7 @@ def reviews(request, movie_id):
             print(serializer)
             serializer.save(movie=movie, user=request.user)
 
-            return Response({'message': '작성 완료'})
+            return Response(serializer.data)
         return Response(serializer.error)
 
 
@@ -133,7 +133,7 @@ def review_detail(request, movie_id, review_id):
     else:
         review.delete()
         
-        return Response({'message', '삭제 완료'})
+        return Response({'id': review_id})
 
 
 # 영화 추천
