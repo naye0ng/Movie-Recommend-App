@@ -136,18 +136,31 @@ def review_detail(request, movie_id, review_id):
         return Response({'message', '삭제 완료'})
 
 
+# 영화 추천
+@login_required
 @api_view(['GET'])
 def movie_recommend(request, user_id):
-    pass
+    user = get_object_or_404(User, pk=user_id)
+    genre_list = user.like_genre.all()
+    genre_ids = []
+    
+    for genre in genre_list:
+        genre_ids.append(genre.id)
+        
+    movie_list = Movie.objects.filter(genres__id__in=genre_ids).distinct()
+    
+    serializer = MovieSerializer(movie_list, many=True)
+    
+    return Response(serializer.data)
+    
 
-
+# 장르 가져오기, 유저 선호 장르 추가
 @login_required
 @api_view(['PUT', 'GET'])
 def genre_detail(request, user_id):
     user = get_object_or_404(User, pk=user_id)
 
     if request.method == 'PUT':
-        print(request.data)
         serializer = CustomUserSerializer(user, data=request.data, partial=True)
         
         if serializer.is_valid(raise_exception=True):

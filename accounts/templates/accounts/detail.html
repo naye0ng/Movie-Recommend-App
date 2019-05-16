@@ -23,6 +23,19 @@
   
   <button @click="updateLikeGenre({{user.id}})" class="btn btn-pink">저장</button>
   
+  <button @click="getRecommend()" class="btn btn-pink">영화 추천</button>
+  
+  <div class="card-columns">
+    <div v-for="movie in movie_list">
+      <div class="card" style="background-color: #181818" @click="getMovie(movie.id)">
+          <img v-bind:src="movie.poster_url" class="card-img-top" alt="..." style="opacity: 0.6">
+          <div class="card-img-overlay">
+            <h4 class="card-title text-white">[[ movie.title ]]</h4>
+            <h5 class="card-title text-white">[[ movie.original_title ]]</h5>
+          </div>
+        </div>
+    </div>
+  </div>
   
 </div>
 
@@ -40,6 +53,7 @@
       followed: "",
       
       like_genre: [],
+      movie_list: [],
     },
         
     methods: {
@@ -95,10 +109,18 @@
         
         this.like_genre.push(genreId)
       },
+      
+      getRecommend: async function() {
+        const movieUrl = `https://${this.BASE_URL}/api/v1/movies/{{user.id}}/recommend/`
+        const movieResponse = await axios.get(movieUrl)
+        
+        this.movie_list = movieResponse.data
+      }
 
     },
     
     created: async function() {
+      // follow 확인 기능
       const followUrl = `https://${this.BASE_URL}/api/v1/users/{{user.id}}/checkfollow/`
       const response = await axios.get(followUrl)
       
@@ -108,6 +130,8 @@
         this.followed = "follow"
       }
       
+      
+      // 기존에 선정했던 genre 가져오는 기능
       const genreUrl = `https://${this.BASE_URL}/api/v1/users/{{user.id}}/genre/`
       const genreResponse = await axios.get(genreUrl)
       
@@ -116,6 +140,12 @@
       for(genre in genreData) {
         this.like_genre.push(genreData[genre])
       }
+      
+      
+      // 이전에 추천되었던 영화 가져오는 기능
+      
+      
+      
     }
       
   })
