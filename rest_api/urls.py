@@ -3,7 +3,7 @@ from . import views
 
 urlpatterns = [
     path('movies/', views.movies), # GET, POST
-    path('movies/<int:user_id>/', views.movie_recommend), # GET
+    path('movies/<int:user_id>/comment/', views.movie_recommend), # GET
     path('movies/<int:movie_id>/',views.movie_detail), # GET, PUT, DELETE
     path('movies/<int:movie_id>/like/',views.movie_like), # GET
     path('movies/<int:movie_id>/reviews/',views.reviews), # GET, POST

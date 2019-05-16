@@ -53,11 +53,12 @@ def movies(request):
 
 @api_view(['GET', 'PUT', 'DELETE'])
 def movie_detail(request, movie_id):
+    print('ddddddd')
     movie = get_object_or_404(Movie, pk=movie_id)
     
     if request.method == 'GET':
         serializer = MovieSerializer(movie)
-        
+        print(serializer.data)
         return Response(serializer.data)
     elif request.method == 'PUT':
         serializer = MovieSerializer(movie, data=request.data, partial=True)
