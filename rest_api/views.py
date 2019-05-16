@@ -27,28 +27,39 @@ def administor(request):
 @api_view(['GET', 'POST'])
 def movies(request):
     if request.method == 'GET':
-        movie_list = Movie.objects.all()
+        movie_list = Movie.objects.order_by('-release_date').all()
         serializer = MovieSerializer(movie_list, many=True)
         
         return Response(serializer.data)
     # TODO: 관리자 확인
-    else:
-        serializer = MovieSerializer(data=request.data)
+    elif request.method == 'POST':
+        # 영화 정보 생성  
+        genres = Genre.objects.filter(id__in= request.data['genres'])
+
+        movie = Movie()
+        movie.original_title = request.data['original_title']
+        movie.title =request.data['title']
+        movie.description =request.data['description']
+        movie.poster_url =request.data['poster_url']
+        movie.release_date =request.data['release_date']
+        movie.trailer_url =request.data['trailer_url']
+        movie.save()
         
-        if serializer.is_valid():
-            serializer.save(genre)
-            
-            return Response({'message': '작성 완료'})
-        return Response(serializer.error)
+        for genre in genres :
+            movie.genres.add(genre)
+        
+        serializer = MovieSerializer(movie, many=False)
+        return Response(serializer.data)
 
 
 @api_view(['GET', 'PUT', 'DELETE'])
 def movie_detail(request, movie_id):
+    print('ddddddd')
     movie = get_object_or_404(Movie, pk=movie_id)
     
     if request.method == 'GET':
         serializer = MovieSerializer(movie)
-        
+        print(serializer.data)
         return Response(serializer.data)
     elif request.method == 'PUT':
         serializer = MovieSerializer(movie, data=request.data, partial=True)

@@ -70,3 +70,7 @@ li {
    height: 700px;
    width: 500px;
 }
+
+#card-add-movie{
+    z-index:999;
+}
