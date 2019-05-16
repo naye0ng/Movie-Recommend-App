@@ -13,6 +13,7 @@ class MovieSerializer(serializers.ModelSerializer):
         fields = [ 'id','title', 'original_title', 'description', 'poster_url', 'trailer_url', 'genres', 'release_date', ]
         
 class ReviewSerailizer(serializers.ModelSerializer):
+    user = serializers.StringRelatedField()
     class Meta:
         model = Review
         fields = [ 'score', 'comment', 'id', 'user' ]
