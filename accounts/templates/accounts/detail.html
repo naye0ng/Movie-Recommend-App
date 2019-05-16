@@ -25,7 +25,6 @@
   </div>
   
   <button @click="updateLikeGenre({{user.id}})" class="btn btn-pink mt-4">저장</button>
-  
   <button @click="getRecommend()" class="btn btn-pink mt-4 ml-2">영화 추천</button>
   
   <div v-if="movie_list">
@@ -44,7 +43,7 @@
         </div>
     </div>
   </div>
-  
+
 </div>
 
 
@@ -65,6 +64,7 @@
     },
         
     methods: {
+      // User follow
       follow: async function(userId) {
         const followUrl = `https://${this.BASE_URL}/api/v1/users/${userId}/follow/`
         const response = await axios.get(followUrl)
@@ -76,6 +76,7 @@
         }
       },
       
+      // 선호 장르 적용
       updateLikeGenre: function(userId) {
         axios.defaults.xsrfCookieName = 'csrftoken'
         axios.defaults.xsrfHeaderName = "X-CSRFTOKEN"
@@ -100,9 +101,9 @@
           this.getRecommend()
         })
         
-        
       },
       
+      // checkout 변경 감지
       changeCheck: function(genreId) {
         let len = this.like_genre.length
         
@@ -117,6 +118,7 @@
         this.like_genre.push(genreId)
       },
       
+      // 영화 추천
       getRecommend: async function() {
         const movieUrl = `https://${this.BASE_URL}/api/v1/movies/{{user.id}}/recommend/`
         const movieResponse = await axios.get(movieUrl)
