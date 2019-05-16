@@ -32,6 +32,7 @@ def movies(request):
         return Response(serializer.data)
     # TODO: 관리자 확인
     elif request.method == 'POST':
+        # 영화 정보 생성  
         genres = Genre.objects.filter(id__in= request.data['genres'])
 
         movie = Movie()
