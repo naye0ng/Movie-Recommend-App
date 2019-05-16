@@ -1,16 +1,18 @@
 <nav class="navbar navbar-expand-lg">
   <div class="row navbar-menu">
+    <a href="{% url 'home' %}"><div class='navbar-btn'><i class="fas fa-home"></i></div></a>
     {% if user.username %}
-    <a href="{% url 'accounts:logout' %}"><div class='navbar-btn'>LOGOUT</div></a>
+      <a href="{% url 'accounts:detail' user.username %}"><div class='navbar-btn'>
+        <i class="fas fa-user"></i>[{{ user.username }}]
+      </div></a>
       {% if user.isAdmin %}
       <!--관리자/두개 토글할 것!-->
-      <a href="{% url 'administor' %}"><div class='navbar-btn'>ADMIN</div></a>
-      <a href="{% url 'home' %}"><div class='navbar-btn'>HOME</div></a>
+      <a href="{% url 'administor' %}"><div class='navbar-btn'>관리자</div></a>
       {% endif %}
-      <a href="{% url 'accounts:detail' user.username %}"><div class='navbar-btn'>{{ user.username }}</div></a>
+      <a href="{% url 'accounts:logout' %}"><div class='navbar-btn'>로그아웃</div></a>
     {% else %}
-    <a href="{% url 'accounts:login' %}"><div class='navbar-btn'>LOGIN</div></a>
-    <a href="{% url 'accounts:signup' %}"><div class='navbar-btn'>SIGN UP</div></a>
+    <a href="{% url 'accounts:login' %}"><div class='navbar-btn'>로그인</div></a>
+    <a href="{% url 'accounts:signup' %}"><div class='navbar-btn'>로그아웃</div></a>
     {% endif %}
     
 
