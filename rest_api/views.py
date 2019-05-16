@@ -2,6 +2,7 @@ from rest_framework.decorators import api_view
 from django.shortcuts import render, get_object_or_404
 from movie.models import Genre, Movie, Review
 from accounts.models import User
+from accounts.serializers import CustomUserSerializer
 from movie.serializers import MovieSerializer, ReviewSerailizer, GenreSerializer
 from django.contrib.auth.decorators import login_required
 from rest_framework.response import Response
@@ -24,6 +25,8 @@ def main(request):
 def administor(request):
     return render(request, 'rest_api/admin.html')
 
+
+# 영화 리스트
 @api_view(['GET', 'POST'])
 def movies(request):
     if request.method == 'GET':
@@ -52,6 +55,7 @@ def movies(request):
         return Response(serializer.data)
 
 
+# 영화 상세 정보
 @api_view(['GET', 'PUT', 'DELETE'])
 def movie_detail(request, movie_id):
     print('ddddddd')
@@ -73,6 +77,7 @@ def movie_detail(request, movie_id):
         movie.delete()
 
 
+# 영화 좋아요
 @login_required
 @api_view(['GET'])
 def movie_like(request, movie_id):
@@ -86,7 +91,9 @@ def movie_like(request, movie_id):
         movie.user_like.add(request.user)
         
         return Response({'message': 'like'})
-    
+
+
+# Review 리스트
 @login_required
 @api_view(['POST', 'GET'])
 def reviews(request, movie_id):
@@ -109,6 +116,7 @@ def reviews(request, movie_id):
         return Response(serializer.error)
 
 
+# Review 삭제, 수정
 @login_required
 @api_view(['PUT', 'DELETE'])
 def review_detail(request, movie_id, review_id):
@@ -131,6 +139,32 @@ def review_detail(request, movie_id, review_id):
 @api_view(['GET'])
 def movie_recommend(request, user_id):
     pass
+
+
+@login_required
+@api_view(['PUT', 'GET'])
+def genre_detail(request, user_id):
+    user = get_object_or_404(User, pk=user_id)
+
+    if request.method == 'PUT':
+        print(request.data)
+        serializer = CustomUserSerializer(user, data=request.data, partial=True)
+        
+        if serializer.is_valid(raise_exception=True):
+            serializer.save(like_genre=request.data['like_genre'])
+            
+            return Response({'message': '변경 완료'})
+    else:
+        like_genres = user.like_genre.all()
+        
+        content = {
+            
+        }
+        
+        for genre in like_genres:
+            content[genre.name] = genre.id
+
+        return Response(content)
 
 
 
@@ -177,15 +211,15 @@ def user(request, user_id) :
 def user_follow(request, user_id):
     user = get_object_or_404(User, pk=user_id)
     
-    # if request.user != user:
-    if user in request.user.followers.all():
-        request.user.followers.remove(user)
-        
-        return Response({'message': 'follow 취소'})
-    else:
-        request.user.followers.add(user)
-        
-        return Response({'message': 'follow 추가'})
+    if request.user != user:
+        if user in request.user.followers.all():
+            request.user.followers.remove(user)
+            
+            return Response({'message': 'follow 취소'})
+        else:
+            request.user.followers.add(user)
+            
+            return Response({'message': 'follow 추가'})
         
 
 @api_view(['GET'])
@@ -199,13 +233,9 @@ def check_follow(request, user_id):
         request.user.followers.add(user)
         
         return Response({'message': False})
+
         
     
-    
-
-
-
-
 
 
 

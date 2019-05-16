@@ -2,6 +2,7 @@
 
 {% block body %}
 <div class="container" id="account">
+  {% csrf_token %}
   <h2>{{ user.username }}' page</h2>
   <!--<p>{{ follower_count }}</p>-->
   
@@ -12,31 +13,32 @@
   {% for genre in genre_list %}
     <div class="form-check form-check-inline">
       {% if genre in like_genres %}
-        <input class="form-check-input" type="checkbox" checked="checked" >
-        <label class="form-check-label">{{ genre.name }}</label>
+        <input @click="changeCheck({{genre.id}})" class="form-check-input" type="checkbox" checked="checked">
       {% else %}
-        <input class="form-check-input" >
-        <label class="form-check-label">{{ genre.name }}</label>
+        <input @click="changeCheck({{genre.id}})" class="form-check-input" type="checkbox">
       {% endif %}
-      
-      
+      <label class="form-check-label">{{ genre.name }}</label>
     </div>
   {% endfor %}
+  
+  <button @click="updateLikeGenre({{user.id}})" class="btn btn-pink">저장</button>
   
   
 </div>
 
 
 <script>
+  var csrf_token = document.getElementsByName("csrfmiddlewaretoken")[0].value;
+
   const app = new Vue({
     delimiters: ['[[', ']]'],
       
     el: "#account",
       
     data: {
-      BASE_URL : 'movie-recommend-app-naye0ng.c9users.io',
+      BASE_URL : 'movie-recommendator-don2101.c9users.io',
       followed: "",
-      movieList: [],
+      
       like_genre: [],
     },
         
@@ -54,9 +56,46 @@
         }
       },
       
-      // movieRecommend: async function(userId) {
+      updateLikeGenre: function(userId) {
+        axios.defaults.xsrfCookieName = 'csrftoken'
+        axios.defaults.xsrfHeaderName = "X-CSRFTOKEN"
+
+        const genreUrl = `https://${this.BASE_URL}/api/v1/users/${userId}/genre/`
+        const token = csrf_token
         
-      // }
+        const payload = {
+          "content-type": "application/json",
+          "x-csrf-token": token,
+        }
+        
+        
+        const content = {
+          "like_genre": this.like_genre
+        }
+        
+        console.log(content)
+
+        axios({ method: 'PUT', url: genreUrl, headers: payload, data: content })
+        .then(response => {
+          console.log(response)
+        })
+
+      },
+      
+      changeCheck: function(genreId) {
+        let len = this.like_genre.length
+        
+        for(let i = 0; i < len; i++) {
+          if(this.like_genre[i] === genreId) {
+            this.like_genre.splice(i, 1)
+
+            return
+          }
+        }
+        
+        this.like_genre.push(genreId)
+      },
+
     },
     
     created: async function() {
@@ -67,6 +106,15 @@
         this.followed = "unfollow"
       } else {
         this.followed = "follow"
+      }
+      
+      const genreUrl = `https://${this.BASE_URL}/api/v1/users/{{user.id}}/genre/`
+      const genreResponse = await axios.get(genreUrl)
+      
+      const genreData = genreResponse.data
+      
+      for(genre in genreData) {
+        this.like_genre.push(genreData[genre])
       }
     }
       

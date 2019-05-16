@@ -140,7 +140,7 @@
     delimiters: ['[[', ']]'],
     el: "#main",
     data: {
-        BASE_URL : 'movie-recommend-app-naye0ng.c9users.io',
+        BASE_URL : 'movie-recommendator-don2101.c9users.io',
         movieList: [],
         // naye0ng
         loading : false,
@@ -232,7 +232,6 @@
           const reviewUrl = `https://${this.BASE_URL}/api/v1/movies/${this.movieId}/reviews/${this.reviewId}/`
           const token = jQuery("[name=csrfmiddlewaretoken]").val();
           
-          // 이게 왜 되는거지?
           axios.defaults.xsrfCookieName = 'csrftoken'
           axios.defaults.xsrfHeaderName = "X-CSRFTOKEN"
           
