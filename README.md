@@ -120,6 +120,7 @@ pip install -r requirements.txt
 ### (4) 배포 서버 URL
 
 [don2101 메인페이지](https://movie-recommendator-don2101.c9users.io/)
+
 [naye0ng 메인페이지](https://movie-recommend-app-naye0ng.c9users.io/)
 
 
