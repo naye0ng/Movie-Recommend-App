@@ -116,10 +116,15 @@ pip install -r requirements.txt
 
 
 
-### (4) 배포 서버 URL
+### (4) 배포 URL
 
-[don2101 메인페이지](https://movie-recommendator-don2101.c9users.io/)
+염희돈(don2101)
+<br>
+https://movie-recommendator-don2101.c9users.io/ - c9 환경에서의 배포
 
-[naye0ng 메인페이지](https://movie-recommend-app-naye0ng.c9users.io/)
-
+김나영(naye0ng) 
+<br>
+https://movie-recommend-app-naye0ng.c9users.io/ - c9 환경에서의 배포
+<br>
+https://naye0ng-movie.herokuapp.com/ - heroku로 배포
 
