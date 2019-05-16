@@ -123,7 +123,6 @@ def movie_recommend(request, user_id):
 
 
 
-
 # naye0ng
 @api_view(['GET'])
 def genres(request) :

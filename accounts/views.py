@@ -3,6 +3,7 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login as auth_login
 from django.contrib.auth import logout as auth_logout
 from .models import User
+from movie.models import Genre
 from .forms import CustomUserCreationForm
 
 # Create your views here.
@@ -49,10 +50,14 @@ def signup(request) :
 def detail(request, username):
     user = User.objects.get(username=username)
     follower_count = user.followings.count()
+    like_genres = user.like_genre.all()
+    genre_list = Genre.objects.all()
     
     content = {
         'user': user,
         'follower_count': follower_count,
+        'genre_list': genre_list,
+        'like_genres': like_genres,
     }
     
     return render(request, 'accounts/detail.html', content)
