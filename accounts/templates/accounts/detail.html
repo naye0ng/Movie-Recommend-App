@@ -8,6 +8,7 @@
   
 
   <h2 class="mt-5">선호 장르</h2>
+  <hr class="bg-light">
   
   
   <div class="row ">
@@ -26,6 +27,11 @@
   <button @click="updateLikeGenre({{user.id}})" class="btn btn-pink mt-4">저장</button>
   
   <button @click="getRecommend()" class="btn btn-pink mt-4 ml-2">영화 추천</button>
+  
+  <div v-if="movie_list">
+    <h2 class="mt-5">추천 영화</h2>
+    <hr class="bg-light">
+  </div>
   
   <div class="card-columns">
     <div v-for="movie in movie_list">
@@ -89,9 +95,12 @@
 
         axios({ method: 'PUT', url: genreUrl, headers: payload, data: content })
         .then(response => {
+          alert("수정되었습니다.")
           
+          this.getRecommend()
         })
-
+        
+        
       },
       
       changeCheck: function(genreId) {
@@ -141,7 +150,7 @@
       
       
       // 이전에 추천되었던 영화 가져오는 기능
-      
+      this.getRecommend()
       
       
     }
