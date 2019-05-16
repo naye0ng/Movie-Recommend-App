@@ -61,16 +61,60 @@ li {
     color: #fff;
     background-color: #ed145b;
 }
-
-.card:hover {
+.btn-purple {
+    color: #fff;
+    background-color: #7b31f4;
+}
+.btn-outline-purple {
+    color: #7b31f4;
+    border-color: #7b31f4;
+}
+.btn-outline-purple:hover {
+    color: #fff;
+    background-color: #7b31f4;
+}
+.movie-card:hover {
     transform: scale(1.07);
 }
 
 .movie-image {
-   height: 700px;
-   width: 500px;
+  width:100%;
 }
 
 #card-add-movie{
     z-index:999;
+}
+
+.badge-pink{
+    font-size: 15px;
+    font-weight: 500;
+    padding: 4px 20px;
+    margin-right: 12px;
+    color: #fff;
+    background-color: #ed145b;
+}
+
+.movie-detail-container{
+    background: -webkit-gradient(linear,left top,right top,from(#3e0c1c),to(#2d0f5e));
+    background: linear-gradient(90deg,#3e0c1c 0,#2d0f5e);
+}
+.div-comment{
+    width: 100%;
+    background: #fff;
+    border-radius: 5px;
+    margin-left :15px;
+    margin-bottom: 12px;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 20px;
+    color: #000;
+    border: 1px solid #e3e3e3;
+    box-sizing: border-box;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    
+}
+.div-comment p{
+    margin-bottom: 0;
 }
